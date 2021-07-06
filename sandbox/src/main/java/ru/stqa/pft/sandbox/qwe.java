@@ -1,3 +1,5 @@
+package ru.stqa.pft.sandbox;
+
 public class qwe {
 
     public static void main(String[] args) {
