@@ -1,22 +1,22 @@
 package ru.stqa.pft.sandbox;
 
 public class Point {
+    double x, y;
 
-    double x1, y1, x2, y2;
-
-    public static void main(String[] args) {
-        Point p1 = new Point();
-        Point p2 = new Point();
-        p1.x1 = 1;
-        p1.y1 = 5;
-        p2.x2 = 8;
-        p2.y2 = 4;
-        System.out.println( "Расстояние между точками P1(" + p1.x1 + ";" + p1.y1 + ") и P2(" + p2.x2 + ";" + p2.y2 + ") = " + distance( p1, p2 ) );
+    public Point(double x1, double y1) {
+        this.x = x1;
+        this.y = y1;
     }
 
-    public static double distance(Point p1, Point p2) {
+    public static void main(String[] args) {
+        Point p1 = new Point( 5, 2 );
+        Point p2 = new Point( 1, 4 );
+        System.out.println( "Расстояние между точками P1(" + p1.x + ";" + p1.y + ") и P2(" + p2.x + ";" + p2.y + ") = " + p2.distance( p1 ) );
+    }
 
-        return Math.sqrt( (p2.x2 - p1.x1) * (p2.x2 - p1.x1) + (p2.y2 - p1.y1) * (p2.y2 - p1.y1) );
+    public double distance(Point p2) {
+
+        return Math.sqrt( (p2.x - this.x) * (p2.x - this.x) + (p2.y - this.y) * (p2.y - this.y) );
 
     }
 }
