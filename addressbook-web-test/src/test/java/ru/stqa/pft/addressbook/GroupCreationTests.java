@@ -17,32 +17,60 @@ public class GroupCreationTests {
     wd = new FirefoxDriver();
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/group.php");
-    wd.findElement(By.name("user")).click();
-    wd.findElement(By.name("user")).clear();
-    wd.findElement(By.name("user")).sendKeys("admin");
-    wd.findElement(By.name("pass")).click();
-    wd.findElement(By.name("pass")).clear();
-    wd.findElement(By.name("pass")).sendKeys("secret");
-    wd.findElement(By.xpath("//input[@value='Login']")).click();
+    login( "admin", "secret" );
+  }
+
+  private void login(String username, String password) {
+    wd.findElement( org.openqa.selenium.By.name("user")).click();
+    wd.findElement( org.openqa.selenium.By.name("user")).clear();
+    wd.findElement( org.openqa.selenium.By.name("user")).sendKeys( username );
+    wd.findElement( org.openqa.selenium.By.name("pass")).click();
+    wd.findElement( org.openqa.selenium.By.name("pass")).clear();
+    wd.findElement( org.openqa.selenium.By.name("pass")).sendKeys( password );
+    wd.findElement( org.openqa.selenium.By.xpath("//input[@value='Login']")).click();
   }
 
   @Test
   public void testGroupCreation() throws Exception {
 
-    wd.findElement(By.xpath("//form[@action='/addressbook/group.php']")).click();
-    wd.findElement(By.linkText("groups")).click();
-    wd.findElement(By.name("new")).click();
-    wd.findElement(By.name("group_name")).click();
-    wd.findElement(By.name("group_name")).clear();
-    wd.findElement(By.name("group_name")).sendKeys("test1");
-    wd.findElement(By.name("group_header")).click();
-    wd.findElement(By.name("group_header")).clear();
-    wd.findElement(By.name("group_header")).sendKeys("test2");
-    wd.findElement(By.name("group_footer")).clear();
-    wd.findElement(By.name("group_footer")).sendKeys("test3");
-    wd.findElement(By.name("submit")).click();
-    wd.findElement(By.linkText("group page")).click();
-    wd.findElement(By.linkText("Logout")).click();
+    GoToGroupPage();
+    initGroupCreation();
+    fillGroupForm( new GroupData( "test1", "test2", "test3" ) );
+    submitGroupCreation();
+    returnToGroupPage();
+    logout();
+  }
+
+  private void logout() {
+    wd.findElement( org.openqa.selenium.By.linkText("Logout")).click();
+  }
+
+  private void returnToGroupPage() {
+    wd.findElement( org.openqa.selenium.By.linkText("group page")).click();
+  }
+
+  private void submitGroupCreation() {
+    wd.findElement( org.openqa.selenium.By.name("submit")).click();
+  }
+
+  private void fillGroupForm(ru.stqa.pft.addressbook.GroupData groupData) {
+    wd.findElement( org.openqa.selenium.By.name("group_name")).click();
+    wd.findElement( org.openqa.selenium.By.name("group_name")).clear();
+    wd.findElement( org.openqa.selenium.By.name("group_name")).sendKeys( groupData.getName() );
+    wd.findElement( org.openqa.selenium.By.name("group_header")).click();
+    wd.findElement( org.openqa.selenium.By.name("group_header")).clear();
+    wd.findElement( org.openqa.selenium.By.name("group_header")).sendKeys( groupData.getHeader() );
+    wd.findElement( org.openqa.selenium.By.name("group_footer")).clear();
+    wd.findElement( org.openqa.selenium.By.name("group_footer")).sendKeys( groupData.getFooter() );
+  }
+
+  private void initGroupCreation() {
+    wd.findElement( org.openqa.selenium.By.linkText("groups")).click();
+    wd.findElement( org.openqa.selenium.By.name("new")).click();
+  }
+
+  private void GoToGroupPage() {
+    wd.findElement( org.openqa.selenium.By.xpath("//form[@action='/addressbook/group.php']")).click();
   }
 
   @org.testng.annotations.AfterMethod(alwaysRun = true)
