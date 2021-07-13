@@ -11,13 +11,13 @@ public class ContactCreationTests {
   private WebDriver dr;
 
   @org.testng.annotations.BeforeMethod(alwaysRun = true)
-  public void setUp() throws Exception {
+  public void setUp() {
     dr = new FirefoxDriver();
     dr.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     dr.get( "http://localhost/addressbook/index.php" );
     login( "admin","secret" );
   }
-  public void login(String username, String password) throws Exception {
+  public void login(String username, String password) {
     dr.findElement( org.openqa.selenium.By.name( "user" ) ).click();
     dr.findElement( org.openqa.selenium.By.name( "user" ) ).clear();
     dr.findElement( org.openqa.selenium.By.name( "user" ) ).sendKeys( username );
@@ -27,7 +27,7 @@ public class ContactCreationTests {
     dr.findElement( org.openqa.selenium.By.xpath( "//input[@value='Login']" ) ).click();
   }
   @Test
-  public void testContactCreation() throws Exception {
+  public void testContactCreation() {
     GoToContactPage();
     fillform( new GroupData1( "test1", "test2", "test3", "test4", "test5", "test6", "test7" ) );
     SubmitContactCreation();
@@ -59,7 +59,7 @@ public class ContactCreationTests {
   }
 
   @org.testng.annotations.AfterMethod(alwaysRun = true)
-  public void tearDown() throws Exception {
+  public void tearDown() {
     dr.quit();
     }
 
