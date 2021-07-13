@@ -1,90 +1,70 @@
 package ru.stqa.pft.addressbook;
 
 import java.util.concurrent.TimeUnit;
-import org.testng.annotations.*;
-import org.openqa.selenium.*;
+
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.Test;
 
 public class ContactCreationTests {
   private WebDriver dr;
 
-  @BeforeMethod(alwaysRun = true)
+  @org.testng.annotations.BeforeMethod(alwaysRun = true)
   public void setUp() throws Exception {
     dr = new FirefoxDriver();
     dr.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     dr.get( "http://localhost/addressbook/index.php" );
+    login( "admin","secret" );
+  }
+  public void login(String username, String password) throws Exception {
+    dr.findElement( org.openqa.selenium.By.name( "user" ) ).click();
+    dr.findElement( org.openqa.selenium.By.name( "user" ) ).clear();
+    dr.findElement( org.openqa.selenium.By.name( "user" ) ).sendKeys( username );
+    dr.findElement( org.openqa.selenium.By.name( "pass" ) ).click();
+    dr.findElement( org.openqa.selenium.By.name( "pass" ) ).clear();
+    dr.findElement( org.openqa.selenium.By.name( "pass" ) ).sendKeys( password );
+    dr.findElement( org.openqa.selenium.By.xpath( "//input[@value='Login']" ) ).click();
+  }
+  @Test
+  public void testContactCreation() throws Exception {
+    GoToContactPage();
+    fillform( new GroupData1( "test1", "test2", "test3", "test4", "test5", "test6", "test7" ) );
+    SubmitContactCreation();
   }
 
-  @Test
-  public void ContactCreationTests() throws Exception {
-    dr.findElement(By.name("user")).click();
-    dr.findElement(By.name("user")).clear();
-    dr.findElement(By.name("user")).sendKeys("admin");
-    dr.findElement(By.name("pass")).click();
-    dr.findElement(By.name("pass")).clear();
-    dr.findElement(By.name("pass")).sendKeys("secret");
-    dr.findElement(By.xpath("//input[@value='Login']")).click();
-    GoToContactPage();
-    VvodFirstname();
-    VvodMiddlename();
-    VvodLastname();
-    VvodNickname();
-    Vvodaddress();
-    Vvodhome();
-    VvodEmail();
-    SubmitContactCreation();
+  private void fillform(ru.stqa.pft.addressbook.GroupData1 groupData1) {
+    dr.findElement( org.openqa.selenium.By.name("firstname")).clear();
+    dr.findElement( org.openqa.selenium.By.name("firstname")).sendKeys( groupData1.getFisrtname() );
+    dr.findElement( org.openqa.selenium.By.name("middlename")).clear();
+    dr.findElement( org.openqa.selenium.By.name("middlename")).sendKeys( groupData1.getMiddlename() );
+    dr.findElement( org.openqa.selenium.By.name("lastname")).clear();
+    dr.findElement( org.openqa.selenium.By.name("lastname")).sendKeys( groupData1.getLastname() );
+    dr.findElement( org.openqa.selenium.By.name("nickname")).clear();
+    dr.findElement( org.openqa.selenium.By.name("nickname")).sendKeys( groupData1.getNickname() );
+    dr.findElement( org.openqa.selenium.By.name("address")).clear();
+    dr.findElement( org.openqa.selenium.By.name("address")).sendKeys( groupData1.getAddress() );
+    dr.findElement( org.openqa.selenium.By.name("home")).clear();
+    dr.findElement( org.openqa.selenium.By.name("home")).sendKeys( groupData1.getHome() );
+    dr.findElement( org.openqa.selenium.By.name("email")).clear();
+    dr.findElement( org.openqa.selenium.By.name("email")).sendKeys( groupData1.getEmail() );
   }
 
   private void SubmitContactCreation() {
     dr.findElement( org.openqa.selenium.By.xpath("//div[@id='content']/form/input[21]")).click();
   }
 
-  private void VvodEmail() {
-    dr.findElement( org.openqa.selenium.By.name("email")).clear();
-    dr.findElement( org.openqa.selenium.By.name("email")).sendKeys("test7");
-  }
-
-  private void Vvodhome() {
-    dr.findElement( org.openqa.selenium.By.name("home")).clear();
-    dr.findElement( org.openqa.selenium.By.name("home")).sendKeys("test6");
-  }
-
-  private void Vvodaddress() {
-    dr.findElement( org.openqa.selenium.By.name("address")).clear();
-    dr.findElement( org.openqa.selenium.By.name("address")).sendKeys("test5");
-  }
-
-  private void VvodNickname() {
-    dr.findElement( org.openqa.selenium.By.name("nickname")).clear();
-    dr.findElement( org.openqa.selenium.By.name("nickname")).sendKeys("test4");
-  }
-
-  private void VvodLastname() {
-    dr.findElement( org.openqa.selenium.By.name("lastname")).clear();
-    dr.findElement( org.openqa.selenium.By.name("lastname")).sendKeys("test3");
-  }
-
-  private void VvodMiddlename() {
-    dr.findElement( org.openqa.selenium.By.name("middlename")).clear();
-    dr.findElement( org.openqa.selenium.By.name("middlename")).sendKeys("test2");
-  }
-
-  private void VvodFirstname() {
-    dr.findElement( org.openqa.selenium.By.name("firstname")).clear();
-    dr.findElement( org.openqa.selenium.By.name("firstname")).sendKeys("test1");
-  }
-
   private void GoToContactPage() {
     dr.findElement( org.openqa.selenium.By.linkText("add new")).click();
   }
 
-  @AfterMethod(alwaysRun = true)
+  @org.testng.annotations.AfterMethod(alwaysRun = true)
   public void tearDown() throws Exception {
     dr.quit();
     }
 
 
-  private boolean isElementPresent(By by) {
+  private boolean isElementPresent(org.openqa.selenium.By by) {
     try {
       dr.findElement(by);
       return true;
@@ -97,7 +77,7 @@ public class ContactCreationTests {
     try {
       dr.switchTo().alert();
       return true;
-    } catch (NoAlertPresentException e) {
+    } catch (org.openqa.selenium.NoAlertPresentException e) {
       return false;
     }
   }
