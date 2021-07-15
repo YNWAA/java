@@ -33,7 +33,7 @@ public class GroupCreationTests {
   @Test
   public void testGroupCreation() throws Exception {
 
-    GoToGroupPage();
+    goToGroupPage();
     initGroupCreation();
     fillGroupForm( new GroupData( "test1", "test2", "test3" ) );
     submitGroupCreation();
@@ -69,7 +69,7 @@ public class GroupCreationTests {
     wd.findElement( org.openqa.selenium.By.name("new")).click();
   }
 
-  private void GoToGroupPage() {
+  private void goToGroupPage() {
     wd.findElement( org.openqa.selenium.By.xpath("//form[@action='/addressbook/group.php']")).click();
   }
 
