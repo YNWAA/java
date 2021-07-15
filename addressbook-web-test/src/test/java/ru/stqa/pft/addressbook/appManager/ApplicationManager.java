@@ -1,10 +1,9 @@
-package ru.stqa.pft.addressbook;
+package ru.stqa.pft.addressbook.appManager;
 
-public class TestBase {
-    private org.openqa.selenium.WebDriver wd;
+public class ApplicationManager {
+    public org.openqa.selenium.WebDriver wd;
 
-    @org.testng.annotations.BeforeMethod(alwaysRun = true)
-    public void setUp() throws Exception {
+    public void init() {
         wd = new org.openqa.selenium.firefox.FirefoxDriver();
         wd.manage().timeouts().implicitlyWait( 30, java.util.concurrent.TimeUnit.SECONDS );
         wd.get( "http://localhost/addressbook/group.php" );
@@ -25,15 +24,11 @@ public class TestBase {
         wd.findElement( org.openqa.selenium.By.linkText( "Logout" ) ).click();
     }
 
-    public void returnToGroupPage() {
-        wd.findElement( org.openqa.selenium.By.linkText( "group page" ) ).click();
-    }
-
     public void submitGroupCreation() {
         wd.findElement( org.openqa.selenium.By.name( "submit" ) ).click();
     }
 
-    public void fillGroupForm(GroupData groupData) {
+    public void fillGroupForm(ru.stqa.pft.addressbook.model.GroupData groupData) {
         wd.findElement( org.openqa.selenium.By.name( "group_name" ) ).click();
         wd.findElement( org.openqa.selenium.By.name( "group_name" ) ).clear();
         wd.findElement( org.openqa.selenium.By.name( "group_name" ) ).sendKeys( groupData.getName() );
@@ -53,8 +48,7 @@ public class TestBase {
         wd.findElement( org.openqa.selenium.By.xpath( "//form[@action='/addressbook/group.php']" ) ).click();
     }
 
-    @org.testng.annotations.AfterMethod(alwaysRun = true)
-    public void tearDown() throws Exception {
+    public void stop() {
         wd.quit();
     }
 
@@ -84,7 +78,7 @@ public class TestBase {
       wd.findElement( org.openqa.selenium.By.name("selected[]")).click();
     }
 
-    public void fillform(ContactData contactData) {
+    public void fillform(ru.stqa.pft.addressbook.model.ContactData contactData) {
       wd.findElement( org.openqa.selenium.By.name("firstname")).clear();
       wd.findElement( org.openqa.selenium.By.name("firstname")).sendKeys( contactData.getFisrtname() );
       wd.findElement( org.openqa.selenium.By.name("middlename")).clear();
@@ -107,5 +101,9 @@ public class TestBase {
 
     public void goToContactPage() {
       wd.findElement( org.openqa.selenium.By.linkText("add new")).click();
+    }
+
+    public void returnToGroupPage() {
+        wd.findElement( org.openqa.selenium.By.linkText( "group page" ) ).click();
     }
 }
