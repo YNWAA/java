@@ -2,7 +2,7 @@ package ru.stqa.pft.addressbook.tests;
 
 public class TestBase {
 
-    protected final ru.stqa.pft.addressbook.appManager.ApplicationManager app = new ru.stqa.pft.addressbook.appManager.ApplicationManager();
+    protected ru.stqa.pft.addressbook.appManager.ApplicationManager app = new ru.stqa.pft.addressbook.appManager.ApplicationManager();
 
     @org.testng.annotations.BeforeMethod(alwaysRun = true)
     public void setUp() throws Exception {

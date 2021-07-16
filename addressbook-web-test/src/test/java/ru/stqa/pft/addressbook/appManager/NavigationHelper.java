@@ -1,17 +1,18 @@
 package ru.stqa.pft.addressbook.appManager;
-
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 public class NavigationHelper {
-    private org.openqa.selenium.WebDriver wd;
+    private WebDriver wd;
 
-    public NavigationHelper(org.openqa.selenium.WebDriver wd) {
+    public NavigationHelper(WebDriver wd) {
         this.wd=wd;
     }
 
     public void goToGroupPage() {
-        wd.findElement( org.openqa.selenium.By.xpath( "//form[@action='/addressbook/group.php']" ) ).click();
+        wd.findElement( By.xpath( "//form[@action='/addressbook/group.php']" ) ).click();
     }
 
     public void goToContactPage() {
-      wd.findElement( org.openqa.selenium.By.linkText("add new")).click();
+      wd.findElement( By.linkText("add new")).click();
     }
 }

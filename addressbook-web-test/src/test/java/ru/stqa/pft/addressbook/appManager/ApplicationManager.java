@@ -1,16 +1,21 @@
 package ru.stqa.pft.addressbook.appManager;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
 
 public class ApplicationManager {
-    org.openqa.selenium.WebDriver wd;
+    WebDriver wd;
     private NavigationHelper navigationHelper;
-    private GroupHelper groupHelper;
+    private GroupContactHelper groupContactHelper;
 private SessionHelper sessionHelper;
     public void init() {
-        wd = new org.openqa.selenium.firefox.FirefoxDriver();
+        wd = new FirefoxDriver();
         wd.manage().timeouts().implicitlyWait( 30, java.util.concurrent.TimeUnit.SECONDS );
         wd.get( "http://localhost/addressbook/group.php" );
-        groupHelper = new GroupHelper( wd );
+        groupContactHelper = new GroupContactHelper( wd );
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
         sessionHelper.login( "admin", "secret" );
@@ -18,18 +23,18 @@ private SessionHelper sessionHelper;
 
 
     public void logout() {
-        wd.findElement( org.openqa.selenium.By.linkText( "Logout" ) ).click();
+        wd.findElement( By.linkText( "Logout" ) ).click();
     }
 
     public void stop() {
         wd.quit();
     }
 
-    private boolean isElementPresent(org.openqa.selenium.By by) {
+    private boolean isElementPresent(By by) {
         try {
             wd.findElement( by );
             return true;
-        } catch (org.openqa.selenium.NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             return false;
         }
     }
@@ -38,13 +43,13 @@ private SessionHelper sessionHelper;
         try {
             wd.switchTo().alert();
             return true;
-        } catch (org.openqa.selenium.NoAlertPresentException e) {
+        } catch (NoAlertPresentException e) {
             return false;
         }
     }
 
-    public GroupHelper getGroupHelper() {
-        return groupHelper;
+    public GroupContactHelper getGroupHelper() {
+        return groupContactHelper;
     }
 
     public NavigationHelper getNavigationHelper() {

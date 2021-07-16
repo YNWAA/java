@@ -1,20 +1,20 @@
 package ru.stqa.pft.addressbook.appManager;
-
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 public class SessionHelper {
-    private org.openqa.selenium.WebDriver wd;
+    private WebDriver wd;
 
-    public SessionHelper(org.openqa.selenium.WebDriver wd) {
-
+    public SessionHelper(WebDriver wd) {
         this.wd = wd;
     }
 
     public void login(String username, String password) {
-        wd.findElement( org.openqa.selenium.By.name( "user" ) ).click();
-        wd.findElement( org.openqa.selenium.By.name( "user" ) ).clear();
-        wd.findElement( org.openqa.selenium.By.name( "user" ) ).sendKeys( username );
-        wd.findElement( org.openqa.selenium.By.name( "pass" ) ).click();
-        wd.findElement( org.openqa.selenium.By.name( "pass" ) ).clear();
-        wd.findElement( org.openqa.selenium.By.name( "pass" ) ).sendKeys( password );
-        wd.findElement( org.openqa.selenium.By.xpath( "//input[@value='Login']" ) ).click();
+        wd.findElement( By.name( "user" ) ).click();
+        wd.findElement( By.name( "user" ) ).clear();
+        wd.findElement( By.name( "user" ) ).sendKeys( username );
+        wd.findElement( By.name( "pass" ) ).click();
+        wd.findElement( By.name( "pass" ) ).clear();
+        wd.findElement( By.name( "pass" ) ).sendKeys( password );
+        wd.findElement( By.xpath( "//input[@value='Login']" ) ).click();
     }
 }
