@@ -57,4 +57,20 @@ public class GroupContactHelper extends HelperBase {
     public void submitGroupModification() {
         click( By.name("update"));
     }
+
+    public void selectContact() {
+        click( By.name("selected[]") );
+    }
+
+    public void initContactModification() {
+        click( By.name("//img[@alt='Edit']") );
+    }
+
+    public void deleteContact() {
+        click( By.xpath("//input[@value='Delete']") );
+    }
+
+    public void submitDeleteContact() {
+        wd.switchTo().alert().accept();
+    }
 }

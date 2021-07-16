@@ -11,7 +11,11 @@ public class NavigationHelper extends HelperBase {
         click( By.xpath( "//form[@action='/addressbook/group.php']" ) );
     }
 
-    public void goToContactPage() {
+    public void addNewContact() {
       click( By.linkText("add new"));
+    }
+
+    public void goToContactPage() {
+       click( By.linkText("home") );
     }
 }
