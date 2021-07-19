@@ -1,4 +1,4 @@
-package ru.stqa.pft.addressbook.appManager;
+package ru.stqa.pft.addressbook.appmanager;
 
 public class HelperBase {
     protected org.openqa.selenium.firefox.FirefoxDriver wd;

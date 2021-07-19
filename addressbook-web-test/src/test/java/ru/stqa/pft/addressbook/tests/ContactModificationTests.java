@@ -8,9 +8,9 @@ public class ContactModificationTests extends TestBase {
     @Test
     public void testContactModification() {
         app.getNavigationHelper().goToContactPage();
-        app.getGroupHelper().selectContactModification();
-        app.getGroupHelper().fillform( new ContactData( "test1", "test2", "test3", "test4", "test5", "test6", "test7" ) );
-        app.getGroupHelper().updateContactModification();
+        app.getContactHelper().selectContactModification();
+        app.getContactHelper().fillform( new ContactData( "test1", "test2", "test3", "test4", "test5", "test6", "test7" ) );
+        app.getContactHelper().updateContactModification();
         app.getNavigationHelper().goToContactPage();
     }
 
