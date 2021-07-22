@@ -1,9 +1,9 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 public class HelperBase {
-    protected org.openqa.selenium.firefox.FirefoxDriver wd;
+    protected org.openqa.selenium.WebDriver wd;
 
-    public HelperBase(org.openqa.selenium.firefox.FirefoxDriver wd) {
+    public HelperBase(org.openqa.selenium.WebDriver wd) {
         this.wd=wd;
     }
 

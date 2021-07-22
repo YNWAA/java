@@ -3,7 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
 public class NavigationHelper extends HelperBase {
 
-    public NavigationHelper(FirefoxDriver wd) {
+    public NavigationHelper(org.openqa.selenium.WebDriver wd) {
         super( wd );
     }
 

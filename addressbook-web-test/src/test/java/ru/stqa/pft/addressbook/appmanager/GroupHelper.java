@@ -4,7 +4,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.pft.addressbook.model.GroupData;
 public class GroupHelper extends HelperBase {
 
-    public GroupHelper(FirefoxDriver wd) {
+    public GroupHelper(org.openqa.selenium.WebDriver wd) {
         super( wd );
     }
 

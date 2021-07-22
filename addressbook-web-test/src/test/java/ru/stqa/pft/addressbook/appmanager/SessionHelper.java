@@ -3,7 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
 public class SessionHelper extends HelperBase {
 
-    public SessionHelper(FirefoxDriver wd) {
+    public SessionHelper(org.openqa.selenium.WebDriver wd) {
         super( wd );
     }
 
