@@ -19,8 +19,8 @@ public class ApplicationManager {
     public void init() {
         if (browser.equals( org.openqa.selenium.remote.BrowserType.FIREFOX )){
             wd = new FirefoxDriver();
-        } else if(browser.equals( org.openqa.selenium.remote.BrowserType.CHROME )){
-            wd = new org.openqa.selenium.chrome.ChromeDriver();
+        } else if(browser.equals( org.openqa.selenium.remote.BrowserType.OPERA )){
+            wd = new org.openqa.selenium.opera.OperaDriver();
         } else if (browser.equals( org.openqa.selenium.remote.BrowserType.EDGE )){
             wd = new org.openqa.selenium.ie.InternetExplorerDriver();
         }
