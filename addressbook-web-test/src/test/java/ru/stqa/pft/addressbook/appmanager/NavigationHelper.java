@@ -8,14 +8,23 @@ public class NavigationHelper extends HelperBase {
     }
 
     public void goToGroupPage() {
-        click( By.xpath( "//form[@action='/addressbook/group.php']" ) );
-    }
+        if (isElementPresent( org.openqa.selenium.By.tagName( "h1" ) )
+                && wd.findElement( org.openqa.selenium.By.tagName( "h1" )).getText().equals( "Groups" )
+                && isElementPresent( org.openqa.selenium.By.name( "new" ) ) ){
+    return;
+        }
+
+    click( org.openqa.selenium.By.xpath("//form[@action='/addressbook/group.php']") );
+}
 
     public void addNewContact() {
       click( By.linkText("add new"));
     }
 
     public void goToContactPage() {
+        if(isElementPresent( By.id( "maintable" ) )){
+            return;
+        }
        click( By.linkText("home") );
     }
 }

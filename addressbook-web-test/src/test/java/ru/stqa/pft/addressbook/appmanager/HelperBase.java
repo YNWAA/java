@@ -29,4 +29,13 @@ public class HelperBase {
             return false;
         }
     }
+
+    protected boolean isElementPresent(org.openqa.selenium.By locator) {
+       try {
+           wd.findElement( locator );
+           return true;
+       } catch (org.openqa.selenium.NoSuchElementException ex)       {
+           return false;
+       }
+       }
 }

@@ -24,7 +24,7 @@ public class ApplicationManager {
         } else if (browser.equals( org.openqa.selenium.remote.BrowserType.EDGE )){
             wd = new org.openqa.selenium.ie.InternetExplorerDriver();
         }
-        wd.manage().timeouts().implicitlyWait( 30, java.util.concurrent.TimeUnit.SECONDS );
+        wd.manage().timeouts().implicitlyWait( 1, java.util.concurrent.TimeUnit.SECONDS );
         wd.get( "http://localhost/addressbook/group.php" );
         groupHelper = new GroupHelper( wd );
         navigationHelper = new NavigationHelper( wd );

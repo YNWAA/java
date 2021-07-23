@@ -8,7 +8,7 @@ public class ContactHelper extends HelperBase {
     }
 
 
-    public void fillform(ContactData contactData) {
+    public void fillform(ContactData contactData,boolean creation) {
         type( By.name( "firstname" ), contactData.getFisrtname() );
         type( By.name( "middlename" ), contactData.getMiddlename() );
         type( By.name( "lastname" ), contactData.getLastname() );
@@ -16,7 +16,16 @@ public class ContactHelper extends HelperBase {
         type( By.name( "address" ), contactData.getAddress() );
         type( By.name( "home" ), contactData.getHome() );
         type( By.name( "email" ), contactData.getEmail() );
-    }
+        if(creation){
+            new org.openqa.selenium.support.ui.Select( wd.findElement(By.name( "new_group" )) ).selectByVisibleText( contactData.getGroup() );
+        } else {
+            org.testng.Assert.assertFalse(isElementPresent( By.name( "new group" ) ));
+        }
+        if(isElementPresent(By.name( "new_group" ))) {
+            new org.openqa.selenium.support.ui.Select( wd.findElement( By.name( "new_group" ) ) ).selectByVisibleText( contactData.getGroup() );
+        }
+        }
+
 
     public void submitContactCreation() {
         click( By.xpath("//div[@id='content']/form/input[21]") );
