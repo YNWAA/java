@@ -19,10 +19,7 @@ public class ContactHelper extends HelperBase {
         if(creation){
             new org.openqa.selenium.support.ui.Select( wd.findElement(By.name( "new_group" )) ).selectByVisibleText( contactData.getGroup() );
         } else {
-            org.testng.Assert.assertFalse(isElementPresent( By.name( "new group" ) ));
-        }
-        if(isElementPresent(By.name( "new_group" ))) {
-            new org.openqa.selenium.support.ui.Select( wd.findElement( By.name( "new_group" ) ) ).selectByVisibleText( contactData.getGroup() );
+            org.testng.Assert.assertFalse(isElementPresent( By.name( "new_group" ) ));
         }
         }
 
