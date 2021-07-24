@@ -5,10 +5,13 @@ public class ContactDeletionTest extends TestBase {
 
     @Test
     public void testContactDeletion(){
-        app.getNavigationHelper().goToContactPage();
+        app.getContactHelper().goToContactPage();
+        if(! app.getContactHelper().isThereAGroup()){
+            app.getContactHelper().createContact(( new ru.stqa.pft.addressbook.model.ContactData( "test1", "test2", "test3", "test4", "test5", "test6", "test7" ,"test1")));
+        }
         app.getContactHelper().selectContact();
         app.getContactHelper().deleteContact();
         app.getContactHelper().submitDeleteContact();
-        app.getNavigationHelper().goToContactPage();
+        app.getContactHelper().goToContactPage();
     }
 }
