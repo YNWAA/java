@@ -12,7 +12,7 @@ public class ContactModificationTests extends TestBase {
             app.getContactHelper().createContact(( new ru.stqa.pft.addressbook.model.ContactData( "test1", "test2", "test3", "test4", "test5", "test6", "test7" ,"test1")  ));
         }
         int before=app.getContactHelper().getContactCount();
-        app.getContactHelper().selectContactModification();
+        app.getContactHelper().selectContactModification(before -1);
         app.getContactHelper().fillform( new ContactData( "test1", "test2", "test3", "test4", "test5", "test6", "test7",null ),false );
         app.getContactHelper().updateContactModification();
         app.getContactHelper().goToContactPage();
