@@ -28,7 +28,7 @@ public class ApplicationManager {
             wd = new InternetExplorerDriver();
         }
         wd.manage().timeouts().implicitlyWait( 1, java.util.concurrent.TimeUnit.SECONDS );
-        wd.get( "http://localhost/addressbook/group.php" );
+        wd.get( "http://localhost/addressbook" );
         groupHelper = new GroupHelper( wd );
         navigationHelper = new NavigationHelper( wd );
         sessionHelper = new SessionHelper( wd );

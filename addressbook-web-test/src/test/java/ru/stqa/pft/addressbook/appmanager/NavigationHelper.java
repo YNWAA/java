@@ -14,7 +14,7 @@ public class NavigationHelper extends HelperBase {
     return;
         }
 
-    click( org.openqa.selenium.By.xpath("//form[@action='/addressbook/group.php']") );
+    click( org.openqa.selenium.By.xpath("//a[contains(text(),'groups')]") );
 }
 
     public void addNewContact() {

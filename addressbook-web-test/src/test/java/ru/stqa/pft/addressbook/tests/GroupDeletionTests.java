@@ -10,9 +10,12 @@ public class GroupDeletionTests extends TestBase {
     if(! app.getGroupHelper().isThereAGroup()){
       app.getGroupHelper().createGroup(( new ru.stqa.pft.addressbook.model.GroupData( "test1", null, null ) ));
     }
+    int before=app.getGroupHelper().getGroupCount();
     app.getGroupHelper().selectGroup();
     app.getGroupHelper().deleteSelectGroup();
     app.getGroupHelper().returnToGroupPage();
+    int after=app.getGroupHelper().getGroupCount();
+    org.testng.Assert.assertEquals(after,before -1);
     }
 
 }
