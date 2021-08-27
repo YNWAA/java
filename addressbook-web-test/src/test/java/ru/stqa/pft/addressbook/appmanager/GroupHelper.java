@@ -1,7 +1,8 @@
 package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.pft.addressbook.model.GroupData;
+import java.util.ArrayList;;
+import java.util.List;
 public class GroupHelper extends HelperBase {
 
     public GroupHelper(org.openqa.selenium.WebDriver wd) {
@@ -57,5 +58,16 @@ public class GroupHelper extends HelperBase {
 
     public int getGroupCount() {
         return wd.findElements(By.name("selected[]")  ).size();
+    }
+
+    public List<GroupData> getGroupList() {
+        List<GroupData> groups=new ArrayList<GroupData>();
+        List<org.openqa.selenium.WebElement> elements=wd.findElements( By.cssSelector( "span.group" ) );
+        for(org.openqa.selenium.WebElement element :elements){
+            String name= element.getText();
+            GroupData group=new GroupData( name,null,null );
+            groups.add( group );
+        }
+        return groups;
     }
 }
