@@ -45,10 +45,28 @@ public class GroupHelper extends HelperBase {
         click( By.name("update"));
     }
 
-    public void createGroup(ru.stqa.pft.addressbook.model.GroupData group) {
+    public void create(ru.stqa.pft.addressbook.model.GroupData group) {
         initGroupCreation();
         fillGroupForm(group);
         submitGroupCreation();
+        returnToGroupPage();
+    }
+    public void modify(int index, ru.stqa.pft.addressbook.model.GroupData group) {
+        selectGroup( index );
+        initGroupModification();
+        fillGroupForm( group );
+        submitGroupModification();
+        returnToGroupPage();
+    }
+    public void creation(ru.stqa.pft.addressbook.model.GroupData group) {
+        initGroupCreation();
+        fillGroupForm( group );
+        submitGroupCreation();
+        returnToGroupPage();
+    }
+    public void delete(int index) {
+        selectGroup( index );
+        deleteSelectGroup();
         returnToGroupPage();
     }
 
@@ -60,7 +78,7 @@ public class GroupHelper extends HelperBase {
         return wd.findElements(By.name("selected[]")  ).size();
     }
 
-    public List<GroupData> getGroupList() {
+    public List<GroupData> list() {
         List<GroupData> groups=new ArrayList<GroupData>();
         List<org.openqa.selenium.WebElement> elements=wd.findElements( By.cssSelector( "span.group" ) );
         for(org.openqa.selenium.WebElement element :elements){

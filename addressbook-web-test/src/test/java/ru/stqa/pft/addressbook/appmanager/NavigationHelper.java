@@ -7,7 +7,7 @@ public class NavigationHelper extends HelperBase {
         super( wd );
     }
 
-    public void goToGroupPage() {
+    public void GroupPage() {
         if (isElementPresent( org.openqa.selenium.By.tagName( "h1" ) )
                 && wd.findElement( org.openqa.selenium.By.tagName( "h1" )).getText().equals( "Groups" )
                 && isElementPresent( org.openqa.selenium.By.name( "new" ) ) ){

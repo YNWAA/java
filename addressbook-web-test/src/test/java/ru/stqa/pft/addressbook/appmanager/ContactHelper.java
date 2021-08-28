@@ -57,7 +57,7 @@ public class ContactHelper extends HelperBase {
     public boolean isThereAGroup() {
         return isElementPresent( By.name("selected[]") );
     }
-    public void goToContactPage() {
+    public void list() {
         if(isElementPresent( By.id( "maintable" ) )){
             return;
         }
@@ -67,11 +67,29 @@ public class ContactHelper extends HelperBase {
         click( By.linkText("add new"));
     }
 
-    public void createContact(ContactData contact) {
+    public void create(ContactData contact) {
         addNewContact();
         fillform(contact,true);
         submitContactCreation();
-        goToContactPage();
+        list();
+    }
+    public void modifyContact(int index, ru.stqa.pft.addressbook.model.ContactData contact) {
+        selectContactModification( index);
+        fillform( contact,false );
+        updateContactModification();
+        list();
+    }
+    public void modifyDeletionContact(int index) {
+        selectContact( index );
+        deleteContact();
+        submitDeleteContact();
+        list();
+    }
+    public void modifyContactCreation(ru.stqa.pft.addressbook.model.ContactData contact) {
+        addNewContact();
+        fillform( contact,true);
+        submitContactCreation();
+        list();
     }
     public List <ContactData> getContactList() {
         List<ContactData> contacts=new ArrayList<ContactData>();
