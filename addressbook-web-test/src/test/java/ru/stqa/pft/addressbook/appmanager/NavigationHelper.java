@@ -6,6 +6,12 @@ public class NavigationHelper extends HelperBase {
     public NavigationHelper(org.openqa.selenium.WebDriver wd) {
         super( wd );
     }
+    public void contactPage() {
+        if(isElementPresent( By.id( "maintable" ) )){
+            return;
+        }
+        click( By.linkText("home") );
+    }
 
     public void GroupPage() {
         if (isElementPresent( org.openqa.selenium.By.tagName( "h1" ) )

@@ -83,8 +83,8 @@ public class GroupHelper extends HelperBase {
         List<org.openqa.selenium.WebElement> elements=wd.findElements( By.cssSelector( "span.group" ) );
         for(org.openqa.selenium.WebElement element :elements){
             String name= element.getText();
-            GroupData group=new GroupData( name,null,null );
-            groups.add( group );
+            int id=Integer.parseInt( element.findElement( By.tagName( "input" ) ).getAttribute( "value" ));
+            groups.add( new GroupData().withId( id ).withName( name ));
         }
         return groups;
     }
