@@ -1,91 +1,107 @@
 package ru.stqa.pft.addressbook.appmanager;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
-import java.util.ArrayList;;
+import ru.stqa.pft.addressbook.model.Groups;
+
 import java.util.List;
+
+import static org.openqa.selenium.By.linkText;
+import static org.openqa.selenium.By.name;
+
 public class GroupHelper extends HelperBase {
 
-    public GroupHelper(org.openqa.selenium.WebDriver wd) {
+    public GroupHelper(WebDriver wd) {
         super( wd );
     }
 
     public void submitGroupCreation() {
-        click( By.name( "submit" ) );
+        click( name( "submit" ) );
     }
 
     public void fillGroupForm(GroupData groupData) {
-        type( By.name( "group_name" ), groupData.getName() );
-        type( By.name( "group_header" ), groupData.getHeader() );
-        type( By.name( "group_footer" ), groupData.getFooter() );
+        type( name( "group_name" ), groupData.getName() );
+        type( name( "group_header" ), groupData.getHeader() );
+        type( name( "group_footer" ), groupData.getFooter() );
     }
 
     public void initGroupCreation() {
-        click( org.openqa.selenium.By.linkText( "groups" ) );
-        click( org.openqa.selenium.By.name( "new" ) );
+        click( linkText( "groups" ) );
+        click( name( "new" ) );
     }
 
     public void deleteSelectGroup() {
-        click( org.openqa.selenium.By.name("delete") );
+        click( name( "delete" ) );
     }
 
     public void selectGroup(int index) {
-        wd.findElements( By.name("selected[]") ).get( index ).click();
+        wd.findElements( name( "selected[]" ) ).get( index ).click();
     }
 
+    public void selectGroupById(int id) {
+        wd.findElement( By.cssSelector( "input[value='" + id + "']" ) ).click();
+    }
 
     public void returnToGroupPage() {
-        click( org.openqa.selenium.By.linkText( "group page" ) );
+        click( linkText( "group page" ) );
     }
 
     public void initGroupModification() {
-        click( By.name("edit") );
+        click( name( "edit" ) );
     }
 
     public void submitGroupModification() {
-        click( By.name("update"));
+        click( name( "update" ) );
     }
 
-    public void create(ru.stqa.pft.addressbook.model.GroupData group) {
+    public void create(GroupData group) {
         initGroupCreation();
-        fillGroupForm(group);
+        fillGroupForm( group );
         submitGroupCreation();
         returnToGroupPage();
     }
-    public void modify(int index, ru.stqa.pft.addressbook.model.GroupData group) {
-        selectGroup( index );
+
+    public void modify(GroupData group) {
+        selectGroupById( group.getId() );
         initGroupModification();
         fillGroupForm( group );
         submitGroupModification();
         returnToGroupPage();
     }
-    public void creation(ru.stqa.pft.addressbook.model.GroupData group) {
+
+    public void creation(GroupData group) {
         initGroupCreation();
         fillGroupForm( group );
         submitGroupCreation();
         returnToGroupPage();
     }
-    public void delete(int index) {
-        selectGroup( index );
+
+
+    public void deleted(GroupData group) {
+        selectGroupById( group.getId() );
         deleteSelectGroup();
         returnToGroupPage();
     }
 
     public boolean isThereAGroup() {
-        return isElementPresent( By.name("selected[]") );
+        return isElementPresent( name( "selected[]" ) );
     }
 
     public int getGroupCount() {
-        return wd.findElements(By.name("selected[]")  ).size();
+        return wd.findElements( name( "selected[]" ) ).size();
     }
 
-    public List<GroupData> list() {
-        List<GroupData> groups=new ArrayList<GroupData>();
-        List<org.openqa.selenium.WebElement> elements=wd.findElements( By.cssSelector( "span.group" ) );
-        for(org.openqa.selenium.WebElement element :elements){
-            String name= element.getText();
-            int id=Integer.parseInt( element.findElement( By.tagName( "input" ) ).getAttribute( "value" ));
-            groups.add( new GroupData().withId( id ).withName( name ));
+    public Groups all() {
+        Groups groups = new Groups();
+        List<WebElement> elements = wd.findElements( By.cssSelector( "span.group" ) );
+        for (WebElement element : elements) {
+            String name = element.getText();
+            int id = Integer.parseInt( element.findElement( By.tagName( "input" ) ).getAttribute( "value" ) );
+            groups.add( new GroupData().withId( id ).withName( name ) );
         }
         return groups;
     }
 }
+
