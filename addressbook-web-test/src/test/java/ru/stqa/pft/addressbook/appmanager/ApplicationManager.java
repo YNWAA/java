@@ -27,7 +27,7 @@ public class ApplicationManager {
         } else if (browser.equals( BrowserType.EDGE )){
             wd = new InternetExplorerDriver();
         }
-        wd.manage().timeouts().implicitlyWait( 1, java.util.concurrent.TimeUnit.SECONDS );
+        wd.manage().timeouts().implicitlyWait( 10, java.util.concurrent.TimeUnit.SECONDS );
         wd.get( "http://localhost/addressbook" );
         groupHelper = new GroupHelper( wd );
         navigationHelper = new NavigationHelper( wd );

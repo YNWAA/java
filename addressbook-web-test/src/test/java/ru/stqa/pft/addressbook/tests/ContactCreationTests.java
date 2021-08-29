@@ -13,14 +13,26 @@ public class ContactCreationTests extends TestBase {
     public void testContactCreation() {
         app.goTo().contactPage();
         Contacts before = app.contact().all();
-        ContactData contact = new ContactData().withFisrtname( "test1" )
-                .withMiddlename( "test2" ).withLastname( "test3" ).withNickname( "test4" )
-                .withAddress( "test5" ).withHome( "test6" ).withEmail( "test7" ).withGroup( "test1" );
-        app.contact().creation( contact,true );
+        ContactData contact = new ContactData().withFirstname( "test1" )
+                .withLastname( "test3" ).withAddress( "test5" ).withHomePhone("test6")
+                .withEmail( "test7" ).withGroup( "test1" );
+        app.contact().creation(contact,true);
+        assertThat(app.contact().count(),equalTo(before.size() + 1));
         Contacts after = app.contact().all();
-        assertThat( after.size(), equalTo( before.size()+1 ) );
-        assertThat( after, equalTo(
-                before.withAdded( contact.withId( after.stream().mapToInt( (g) -> g.getId() ).max().getAsInt() ) ) ) );
+        assertThat(after, equalTo(
+                before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+    }
+    @Test(enabled = false)
+    public void testBadContactCreation() throws Exception {
+        app.goTo().contactPage();
+        Contacts before = app.contact().all();
+        ContactData contact = new ContactData().withFirstname( "test1" )
+                .withLastname( "test3" ).withAddress( "test5" ).withHomePhone("test6")
+                .withEmail( "test7" ).withGroup( "test1" );
+        app.contact().creation(contact,true);
+        assertThat(app.contact().count(),equalTo(before.size()));
+        Contacts after = app.contact().all();
+        assertThat(after, equalTo(before));
     }
 
 }
