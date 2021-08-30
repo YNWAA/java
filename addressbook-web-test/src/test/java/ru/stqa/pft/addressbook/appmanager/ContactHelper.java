@@ -20,13 +20,13 @@ public class ContactHelper extends HelperBase {
     public void fillform(ContactData contactData, boolean creation) {
         type( By.name( "firstname" ), contactData.getFirstname() );
 
-   //     type( By.name( "middlename" ), contactData.getMiddlename() );
+        type( By.name( "middlename" ), contactData.getMiddleName());
         type( By.name( "lastname" ), contactData.getLastName() );
     //    type( By.name( "nickname" ), contactData.getNickname() );
         attach( By.name("photo") ,contactData.getPhoto());
         type( By.name( "address" ), contactData.getAddress() );
-        type( By.name( "home" ), contactData.getHome() );
-        type( By.name( "email" ), contactData.getEmail() );
+      //  type( By.name( "home" ), contactData.getHome() );
+       // type( By.name( "email" ), contactData.getEmail() );
         if (creation) {
             if (!wd.findElement( By.tagName( "option" ) ).getText().equals( contactData.getGroup() )) {
                 new Select( wd.findElement( By.name( "new_group" ) ) ).selectByVisibleText( "[none]" );
@@ -73,7 +73,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void addNewContact() {
-        click( By.linkText( "add new" ) );
+        click(By.linkText("add new"));
     }
 
     public void page() {
