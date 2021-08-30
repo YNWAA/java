@@ -5,7 +5,8 @@ import org.testng.annotations.AfterSuite;
 import org.openqa.selenium.remote.BrowserType;
 public class TestBase {
 
-    protected static final ApplicationManager app = new ApplicationManager( BrowserType.FIREFOX );
+    protected static final ApplicationManager app =
+            new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
 
     @BeforeSuite
     public void setUp() throws Exception {

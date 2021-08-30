@@ -21,7 +21,7 @@ public class ContactCreationTests extends TestBase {
             }
             com.thoughtworks.xstream.XStream xstream = new com.thoughtworks.xstream.XStream();
             xstream.processAnnotations(ContactData.class);
-            @SuppressWarnings("unchecked") java.util.List<ru.stqa.pft.addressbook.model.ContactData> contacts = (java.util.List<ru.stqa.pft.addressbook.model.ContactData>) xstream.fromXML(xml);
+            java.util.List<ru.stqa.pft.addressbook.model.ContactData> contacts = (java.util.List<ru.stqa.pft.addressbook.model.ContactData>) xstream.fromXML(xml);
             return contacts.stream().map((g) -> new Object[]{g}).collect( java.util.stream.Collectors.toList()).iterator();
         }
     }

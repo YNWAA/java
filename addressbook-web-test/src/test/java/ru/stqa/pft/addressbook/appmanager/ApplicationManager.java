@@ -9,17 +9,21 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public class ApplicationManager {
     WebDriver wd;
+    private final java.util.Properties properties;
     private NavigationHelper navigationHelper;
     private ContactHelper contactHelper;
     private GroupHelper groupHelper;
     private SessionHelper sessionHelper;
     private String browser;
 
-    public ApplicationManager(String browser) {
+    public ApplicationManager(String browser)  {
         this.browser = browser;
-    }
+        properties = new java.util.Properties();
+        }
 
-    public void init() {
+    public void init() throws java.io.IOException {
+        String target = System.getProperty("target", "local");
+        properties.load(new java.io.FileReader(new java.io.File(String.format("src/test/resources/%s.properties", target))));
         if (browser.equals( BrowserType.FIREFOX )){
             wd = new FirefoxDriver();
         } else if(browser.equals( BrowserType.OPERA )){
@@ -28,12 +32,12 @@ public class ApplicationManager {
             wd = new InternetExplorerDriver();
         }
         wd.manage().timeouts().implicitlyWait( 10, java.util.concurrent.TimeUnit.SECONDS );
-        wd.get( "http://localhost/addressbook" );
+        wd.get(properties.getProperty("web.BaseURL"));
         groupHelper = new GroupHelper( wd );
         navigationHelper = new NavigationHelper( wd );
         sessionHelper = new SessionHelper( wd );
         contactHelper = new ContactHelper( wd );
-        sessionHelper.login( "admin", "secret" );
+        sessionHelper.login(properties.getProperty( "web.adminLogin"),properties.getProperty( "web.adminPassword") );
     }
 
 
