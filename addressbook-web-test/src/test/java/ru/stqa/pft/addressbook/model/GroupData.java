@@ -1,10 +1,15 @@
 package ru.stqa.pft.addressbook.model;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+@com.thoughtworks.xstream.annotations.XStreamAlias("group")
 public class GroupData {
+    @com.thoughtworks.xstream.annotations.XStreamOmitField
     private int id = Integer.MAX_VALUE;
+    @com.google.gson.annotations.Expose
     private String name;
+    @com.google.gson.annotations.Expose
     private String header;
+    @com.google.gson.annotations.Expose
     private String footer;
 
     @Override

@@ -13,14 +13,19 @@ public class HelperBase {
 
     protected void type(org.openqa.selenium.By locator, String text) {
         click( locator );
-        if(text!=null){
-            String existingText=wd.findElement( locator ).getAttribute("value");
-            if(! text.equals( existingText )){
+        if (text != null) {
+            String existingText = wd.findElement( locator ).getAttribute( "value" );
+            if (!text.equals( existingText )) {
                 wd.findElement( locator ).clear();
                 wd.findElement( locator ).sendKeys( text );
             }
         }
     }
+        protected void attach(org.openqa.selenium.By locator, java.io.File file) {
+            if(file!=null){
+                wd.findElement( locator ).sendKeys( file.getAbsolutePath() );
+                }
+            }
     private boolean isAlertPresent() {
         try {
             wd.switchTo().alert();
