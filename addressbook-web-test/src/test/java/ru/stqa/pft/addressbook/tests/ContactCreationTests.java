@@ -46,24 +46,31 @@ public class ContactCreationTests extends TestBase {
     @Test(dataProvider = "validContactsFromJson")
     public void testContactCreation(ContactData contact) {
         app.goTo().contactPage();
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contactsRequestDB();
         app.contact().creation(contact,true);
+        app.goTo().contactPage();
         assertThat(app.contact().count(),equalTo(before.size() + 1));
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contactsRequestDB();
         assertThat(after, equalTo(
-                before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+                before.withAdded(contact.withId(after.stream().mapToInt(ContactData::getId).max().getAsInt()))));
+        verifyContactListInUI();
     }
     @Test(enabled = false)
-    public void testBadContactCreation() throws Exception {
+    public void pageAddNewBadContact() {
+        ru.stqa.pft.addressbook.model.Groups groups = app.db().groupsRequestDB();
+        File photo = new File("src/test/resources/stru.png");
         app.goTo().contactPage();
-        Contacts before = app.contact().all();
-        ContactData contact = new ContactData().withFirstname( "test1" )
-                .withLastname( "test3" ).withAddress( "test5" ).withHomePhone("test6")
-                .withEmail( "test7" ).withGroup( "test1" );
-        app.contact().creation(contact,true);
-        assertThat(app.contact().count(),equalTo(before.size()));
-        Contacts after = app.contact().all();
+        Contacts before = app.db().contactsRequestDB();
+        ContactData contact = new ContactData()
+                .withFirstname("FirstName'").withLastname("LastName").withMiddleName("MiddleName").withNickName("Donald")
+                .inGroup(groups.iterator().next())
+                .withHomePhone("111").withMobilePhone("222").withWorkPhone("333").withPhoto(photo);
+        app.contact().creation(contact, true);
+        app.goTo().contactPage();
+        assertThat(app.contact().count(), equalTo(before.size()));
+        Contacts after = app.db().contactsRequestDB();
         assertThat(after, equalTo(before));
+        verifyContactListInUI();
     }
 
 }

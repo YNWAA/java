@@ -4,12 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
 
 public class ContactHelper extends HelperBase {
     public ContactHelper(WebDriver wd) {
@@ -20,21 +18,20 @@ public class ContactHelper extends HelperBase {
     public void fillform(ContactData contactData, boolean creation) {
         type( By.name( "firstname" ), contactData.getFirstname() );
 
-        type( By.name( "middlename" ), contactData.getMiddleName());
+        type( By.name( "middlename" ), contactData.getMiddlename());
         type( By.name( "lastname" ), contactData.getLastName() );
     //    type( By.name( "nickname" ), contactData.getNickname() );
         attach( By.name("photo") ,contactData.getPhoto());
-        type( By.name( "address" ), contactData.getAddress() );
+        type( By.name( "address"), contactData.getAddress() );
       //  type( By.name( "home" ), contactData.getHome() );
        // type( By.name( "email" ), contactData.getEmail() );
         if (creation) {
-            if (!wd.findElement( By.tagName( "option" ) ).getText().equals( contactData.getGroup() )) {
-                new Select( wd.findElement( By.name( "new_group" ) ) ).selectByVisibleText( "[none]" );
+            if (contactData.getGroups().size()>0) {
+                org.testng.Assert.assertTrue(contactData.getGroups().size()==1);
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
             } else {
-                new Select( wd.findElement( By.name( "new_group" ) ) ).selectByVisibleText( contactData.getGroup() );
+                org.testng.Assert.assertFalse(isElementPresent(By.name("new_group")));
             }
-        } else {
-            org.testng.Assert.assertFalse( isElementPresent( By.name( "new_group" ) ) );
         }
     }
 
@@ -83,13 +80,6 @@ public class ContactHelper extends HelperBase {
         click( By.linkText( "home" ) );
     }
 
-    public void create(ContactData contact) {
-        addNewContact();
-        fillform( contact, true );
-        submitContactCreation();
-        page();
-    }
-
     public void modifyi(ContactData contact) {
         selectContactModificationById( contact.getId() );
         fillform( contact, false );
@@ -97,12 +87,43 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
         page();
     }
+    public void verifyGroupContact(){
+        String text = "[none]";
+        selectTypeGroupsInContacts(text);
+        selectAllContact();
+        clickAddGroup();
+    }
+    public void clickAddGroup() {
+        click(By.xpath("//input[@value='Add to']"));
+    }
+    private void selectAllContact() {
+        click(By.id("MassCB"));
+    }
 
+    public boolean verifyFreeContact() {
+        String text = "[none]";
+        selectTypeGroupsInContacts(text);
+        String number = wd.findElements(By.id("search_count")).get(0).getText();
+        return number.equals("0");
+    }
+    public void selectTypeGroupsInContacts(String text) {
+        click(By.name("group"));
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(text);
+    }
     public void delete(ContactData contact) {
         selectContactById( contact.getId() );
         deleteContact();
         submitDeleteContact();
         contactCache = null;
+        page();
+    }
+    public void deleteGroupIsContact() {
+        click(By.name("remove"));
+    }
+    public void contactDeleteGroup(ContactData contact, String text) {
+        selectTypeGroupsInContacts(text);
+        selectContactById(contact.getId());
+        deleteGroupIsContact();
         page();
     }
 
@@ -111,6 +132,11 @@ public class ContactHelper extends HelperBase {
         fillform( contact, b );
         submitContactCreation();
         contactCache = null;
+        page();
+    }
+    public void addGroupInContactById(ContactData contact){
+        selectContactById(contact.getId());
+        clickAddGroup();
         page();
     }
     private Contacts contactCache = null;

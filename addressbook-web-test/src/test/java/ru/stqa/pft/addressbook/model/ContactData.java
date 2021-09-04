@@ -1,23 +1,73 @@
 package ru.stqa.pft.addressbook.model;
-import java.util.Objects;
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
+
+
+import javax.persistence.*;
 import java.io.File;
+import java.util.Objects;
+
+@XStreamAlias("contact")
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
-    @com.google.gson.annotations.Expose
+    @Expose
+    @Column(name = "firstname")
     private String firstname;
-    @com.google.gson.annotations.Expose
+    @Expose
+    @Column(name = "middlename")
     private String lastname;
-    @com.google.gson.annotations.Expose
-    private String middleName;
+    @Transient
+    private String middlename;
+    @Transient
     private String group;
-    private String homePhone;
-    private String mobilePhone;
-    private String workPhone;
-    @com.google.gson.annotations.Expose
-    private String address;
+    @Transient
     private String email;
+    @Column(name = "home")
+    @Type(type = "text")
+    private String homePhone;
+    @Column(name = "mobile")
+    @Type(type = "text")
+    private String mobilePhone;
+    @Column(name = "work")
+    @Type(type = "text")
+    private String workPhone;
+    @Expose
+    @Column(name = "nickname")
+    private String nickName;
+    @Expose
+    @Column(name = "address")
+    @Type(type = "text")
+    private String address;
+    @Column(name = "email")
+    @Type(type = "text")
+    private String mailFirst;
+    @Column(name = "email2")
+    @Type(type = "text")
+    private String mailSecond;
+    @Column(name = "email3")
+    @Type(type = "text")
+    private String mailThree;
+    @Expose
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
+    @Transient
+    private String allMail;
+    @Transient
     private String allPhones;
-    @com.thoughtworks.xstream.annotations.XStreamOmitField
+    @XStreamOmitField
+    @Id
+    @Column(name = "id")
     private int id = Integer.MAX_VALUE;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private java.util.Set<GroupData> groups = new java.util.HashSet<GroupData>();
+
 
     public File getPhoto() {
         return new File(photo);
@@ -27,17 +77,7 @@ public class ContactData {
         this.photo = photo.getPath();
         return this;
     }
-    @com.google.gson.annotations.Expose
-    private String photo;
 
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "lastname='" + lastname + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", id='" + id + '\'' +
-                '}';
-    }
 
     public int getId() {
         return id;
@@ -46,10 +86,51 @@ public class ContactData {
     public String getLastName() {
         return lastname;
     }
+    public ContactData withMailFirst(String mailFirst) {
+        this.mailFirst = mailFirst;
+        return this;
+    }
+
+    public ContactData withMailSecond(String mailSecond) {
+        this.mailSecond = mailSecond;
+        return this;
+    }
+
+    public ContactData withMailThree(String mailThree) {
+        this.mailThree = mailThree;
+        return this;
+    }
+
+    public ContactData withAllMail(String allMail) {
+        this.allMail = allMail;
+        return this;
+    }
+    public ContactData withNickName(String nickName) {
+        this.nickName = nickName;
+        return this;
+    }
 
 
     public String getGroup() {
         return group;
+    }
+    public String getAllMail() {
+        return allMail;
+    }
+
+    public String getMailThree() {
+        return mailThree;
+    }
+
+    public String getMailSecond() {
+        return mailSecond;
+    }
+
+    public String getMailFirst() {
+        return mailFirst;
+    }
+    public String getNickName() {
+        return nickName;
     }
 
 
@@ -92,12 +173,12 @@ public class ContactData {
         this.id = id;
         return this;
     }
-    public String getMiddleName() {
-        return middleName;
+    public String getMiddlename() {
+        return middlename;
     }
 
     public ContactData withMiddleName(String middleName) {
-        this.middleName = middleName;
+        this.middlename = middleName;
         return this;
     }
     public ContactData withLastname(String lastname) {
@@ -147,20 +228,38 @@ public class ContactData {
         this.email = email;
         return this;
     }
+    public ContactData inGroup(GroupData group) {
+        groups.add(group);
+        return this;
+    }
+
+    public Groups getGroups() {
+        return new Groups(groups);
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return id == that.id && Objects.equals(lastname, that.lastname) && Objects.equals(firstname, that.firstname);
+        return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(middlename, that.middlename) && Objects.equals(lastname, that.lastname) && Objects.equals(nickName, that.nickName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lastname, firstname, id);
+        return Objects.hash(id, firstname, middlename, lastname, nickName);
     }
-
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", firstName='" + firstname + '\'' +
+                ", lastName='" + lastname + '\'' +
+                ", homePhone='" + homePhone + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", workPhone='" + workPhone + '\'' +
+                '}';
+    }
 
 
 }

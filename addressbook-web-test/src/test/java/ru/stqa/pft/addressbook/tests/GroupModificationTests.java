@@ -11,23 +11,25 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GroupModificationTests extends TestBase {
 
     @org.testng.annotations.BeforeMethod
-    public void ensurePreconditions() {
-        app.goTo().GroupPage();
-        if (app.group().all().size() == 0) {
-            app.group().create( (new GroupData().withName( "test1" )) );
+    public void ensurePrecondition() {
+        if (app.db().groupsRequestDB().size() == 0) {
+            app.goTo().GroupPage();
+            app.group().create(new GroupData().withName("test1"));
         }
     }
 
     @Test
     public void testGroupModification() {
-        Groups before = app.group().all();
-        GroupData modifiedGroup  = before.iterator().next();
-        GroupData group = new GroupData().
-                withId(modifiedGroup.getId()).withName("test2").withHeader( "test2").withFooter("test2");
-        app.group().modify( group);
-        assertThat(app.group().count(),equalTo(before.size()));
-        Groups after = app.group().all();
-        assertThat(after,equalTo(before.withOut(modifiedGroup).withAdded(group)));
+        Groups before = app.db().groupsRequestDB();
+        GroupData modifiedGroup = before.iterator().next();
+        GroupData group = new GroupData()
+                .withId(modifiedGroup.getId()).withName("test1").withHeader("test2").withFooter("test3");
+        app.goTo().GroupPage();
+        app.group().modify(group);
+        assertThat(app.group().count(), equalTo(before.size()));
+        Groups after = app.db().groupsRequestDB();
+        assertThat(after, equalTo(before.withOut(modifiedGroup).withAdded(group)));
+        verifyGroupListInUI();
     }
 
 

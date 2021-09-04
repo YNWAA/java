@@ -49,7 +49,7 @@ public class ContactDataGenerator {
             saveAsJson(contacts, new File(file));
         }
         else {
-            System.out.println("Unrecognized format " + format);
+            System.out.println("Unrecognized format" + format);
         }
     }
 
@@ -58,7 +58,7 @@ public class ContactDataGenerator {
 
         try (Writer writer = new FileWriter(file)){
             for (ContactData contact : contacts) {
-                writer.write(String.format("%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastName(), contact.getMiddleName(), contact.getAddress()
+                writer.write(String.format("%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastName(), contact.getMiddlename(), contact.getAddress()
                 ));
             }
         }
@@ -71,10 +71,10 @@ public class ContactDataGenerator {
         File photo = new File("src/test/resources/stru.png");
         for (int i = 0; i < count; i++) {
             contacts.add(new ContactData()
-                    .withFirstname(String.format("test1", i))
-                    .withLastname(String.format("test2", i))
-                    .withMiddleName(String.format("test3", i))
-                    .withAddress(String.format("test4", i))
+                    .withFirstname(String.format("test1",i))
+                    .withLastname(String.format("test2",i))
+                    .withMiddleName(String.format("test3",i))
+                    .withAddress(String.format("test4",i))
                     .withPhoto(photo)
 
             );

@@ -1,15 +1,31 @@
 package ru.stqa.pft.addressbook.model;
-import ru.stqa.pft.addressbook.model.GroupData;
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @com.thoughtworks.xstream.annotations.XStreamAlias("group")
+@Entity
+@Table(name = "group_list")
 public class GroupData {
     @com.thoughtworks.xstream.annotations.XStreamOmitField
+    @javax.persistence.Id
+    @javax.persistence.Column(name = "group_id")
     private int id = Integer.MAX_VALUE;
     @com.google.gson.annotations.Expose
+    @javax.persistence.Column(name = "group_name")
     private String name;
     @com.google.gson.annotations.Expose
+    @javax.persistence.Column(name = "group_header")
+    @org.hibernate.annotations.Type(type = "text")
     private String header;
     @com.google.gson.annotations.Expose
+    @javax.persistence.Column(name = "group_footer")
+    @org.hibernate.annotations.Type(type = "text")
     private String footer;
 
     @Override
@@ -38,22 +54,29 @@ public class GroupData {
         return id;
     }
 
-    public GroupData withId(int id) {
-        this.id = id;
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ru.stqa.pft.addressbook.model.GroupData groupData = (ru.stqa.pft.addressbook.model.GroupData) o;
-        return id == groupData.id && java.util.Objects.equals( name, groupData.name );
+        GroupData groupData = (GroupData) o;
+        return id == groupData.id && Objects.equals(name, groupData.name) && Objects.equals(header, groupData.header) && Objects.equals(footer, groupData.footer);
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash( id, name );
+        return Objects.hash(id, name, header, footer);
+    }
+    @ManyToMany(mappedBy = "groups")
+    private Set<ContactData> contacts = new HashSet<ContactData>();
+
+
+    public Contacts getContacts() {
+        return new Contacts(contacts);
+    }
+
+    public GroupData withId(int id) {
+        this.id = id;
+        return this;
     }
 
     public String getName() {

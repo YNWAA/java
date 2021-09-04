@@ -12,23 +12,27 @@ public class ContactModificationTests extends TestBase {
     @org.testng.annotations.BeforeMethod
     public void ensurePreconditions() {
         app.goTo().contactPage();
-        if (app.contact().all().size() == 0) {
+        if (app.db().contactsRequestDB().size() ==0 ) {
             app.contact().creation( (new ContactData().withFirstname( "test1" )
                     .withLastname( "test3" ).withAddress( "test5" ).withHomePhone("test6")
                     .withEmail( "test7" ).withGroup( "test1" )),false );
         }
+        app.goTo().contactPage();
     }
     @Test
     public void testContactModification() {
-        Contacts before = app.contact().all();
+        java.io.File photo = new java.io.File("src/test/resources/stru.png");
+        Contacts before = app.db().contactsRequestDB();
         ContactData modifiedContact = before.iterator().next();
         ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstname( "test1" )
-                .withLastname( "test3" ).withAddress( "test5" ).withHomePhone("test6")
+                .withLastname( "test3" ).withPhoto(photo).withAddress( "test5" ).withHomePhone("test6")
                 .withEmail( "test7" ).withGroup( "test1" );
+        app.goTo().contactPage();
         app.contact().modifyi(contact);
         assertThat(app.contact().count(),equalTo(before.size() ));
-        Contacts after = app.contact().all();
-        assertThat(after,equalTo(before.withOut(modifiedContact).withAdded(contact)));
+        Contacts after = app.db().contactsRequestDB();
+        assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
+        verifyContactListInUI();
     }
 
 

@@ -43,22 +43,24 @@ public class GroupCreationTests extends TestBase {
     @Test(dataProvider = "validGroupsFromJson")
     public void testGroupCreation(GroupData group) {
         app.goTo().GroupPage();
-        Groups before = app.group().all();
+        Groups before = app.db().groupsRequestDB();
         app.group().creation( group );
-        Groups after = app.group().all();
         assertThat( app.group().count(), equalTo( before.size() + 1 ) );
-        assertThat( after, equalTo(
-                before.withAdded( group.withId( after.stream().mapToInt( (g) -> g.getId() ).max().getAsInt() ) ) ) );
+        Groups after = app.db().groupsRequestDB();
+        assertThat(after, equalTo(
+                before.withAdded(group.withId(after.stream().mapToInt(GroupData::getId).max().getAsInt()))));
+        verifyGroupListInUI();
     }
     @Test(enabled = false)
     public void testBadGroupCreation()  {
         app.goTo().GroupPage();
-        Groups before = app.group().all();
+        Groups before = app.db().groupsRequestDB();
         GroupData group = new GroupData().withName("test2'");
         app.group().create(group);
-        assertThat(app.group().count(),equalTo(before.size()));
-        Groups after = app.group().all();
+        assertThat(app.group().count(), equalTo(before.size()));
+        Groups after = app.db().groupsRequestDB();
         assertThat(after, equalTo(before));
+        verifyGroupListInUI();
     }
 
 }
