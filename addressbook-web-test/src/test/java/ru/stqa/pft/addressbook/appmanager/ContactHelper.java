@@ -145,19 +145,23 @@ public class ContactHelper extends HelperBase {
         if (contactCache != null){
             return new Contacts(contactCache);
         }
-        contactCache= new Contacts();
-        List<WebElement> rows = wd.findElements(By.name("entry"));
-        for (WebElement row : rows){
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
+        contactCache = new Contacts();
+        List<WebElement> elements = wd.findElements(By.name(("entry")));
+        for (WebElement element : elements) {
+            List<WebElement> cells = element.findElements(By.tagName("td"));
             String firstname = cells.get(2).getText();
-            String lastname = cells.get(1).getText();
+            String lastName = cells.get(1).getText();
             String allPhones = cells.get(5).getText();
+            String allMail = cells.get(4).getText();
             String address = cells.get(3).getText();
-            String email = cells.get(4).getText();
-            contactCache.add(new ContactData().withId(id).withLastname(lastname).withFirstname(firstname)
-                    .withAddress(address).withEmail(email)
-                    .withAllPhones(allPhones).withGroup("test2"));
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            contactCache.add(new ContactData()
+                    .withId(id)
+                    .withFirstname(firstname)
+                    .withLastname(lastName)
+                    .withAllPhones(allPhones)
+                    .withAllMail(allMail)
+                    .withAddress(address));
         }
         return new Contacts(contactCache);
     }
