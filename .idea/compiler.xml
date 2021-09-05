@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="addressbook-web-test" target="16" />
+      <module name="addressbook-web-test.main" target="16" />
+      <module name="addressbook-web-test.test" target="16" />
+      <module name="mantistests" target="16" />
+      <module name="mantistests.main" target="16" />
+      <module name="mantistests.test" target="16" />
+      <module name="sandbox" target="16" />
+      <module name="sandbox.main" target="16" />
+      <module name="sandbox.test" target="16" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
