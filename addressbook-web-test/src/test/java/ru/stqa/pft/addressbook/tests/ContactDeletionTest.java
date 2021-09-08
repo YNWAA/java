@@ -13,9 +13,9 @@ public class ContactDeletionTest extends TestBase {
     public void ensurePreconditions() {
         app.goTo().contactPage();
         if (app.db().contactsRequestDB().size() ==0 ) {
+            java.io.File photo = new java.io.File("src/test/resources/stru.png");
             app.contact().creation( (new ContactData().withFirstname( "test1" )
-                    .withLastname( "test3" ).withAddress( "test5" ).withHomePhone("test6")
-                    .withEmail( "test7" ).withGroup( "test1" )),false );
+                    .withLastname( "test3" ).withPhoto(photo).withAddress( "test5" )),false );
         }
         app.goTo().contactPage();
     }

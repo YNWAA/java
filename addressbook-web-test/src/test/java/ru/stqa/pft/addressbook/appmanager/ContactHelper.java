@@ -17,24 +17,19 @@ public class ContactHelper extends HelperBase {
 
     public void fillform(ContactData contactData, boolean creation) {
         type( By.name( "firstname" ), contactData.getFirstname() );
-
-        type( By.name( "middlename" ), contactData.getMiddlename());
         type( By.name( "lastname" ), contactData.getLastName() );
-    //    type( By.name( "nickname" ), contactData.getNickname() );
         attach( By.name("photo") ,contactData.getPhoto());
         type( By.name( "address"), contactData.getAddress() );
-      //  type( By.name( "home" ), contactData.getHome() );
-       // type( By.name( "email" ), contactData.getEmail() );
         if (creation) {
             if (contactData.getGroups().size()>0) {
-                org.testng.Assert.assertTrue(contactData.getGroups().size()==1);
+                org.testng.Assert.assertTrue( contactData.getGroups().size()== 1 );
                 new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
             } else {
                 org.testng.Assert.assertFalse(isElementPresent(By.name("new_group")));
             }
         }
-    }
 
+    }
     public void submitContactCreation() {
         click( By.xpath( "//div[@id='content']/form/input[21]" ) );
     }
@@ -129,7 +124,7 @@ public class ContactHelper extends HelperBase {
 
     public void creation(ContactData contact, boolean b) {
         addNewContact();
-        fillform( contact, b );
+        fillform( contact, false );
         submitContactCreation();
         contactCache = null;
         page();

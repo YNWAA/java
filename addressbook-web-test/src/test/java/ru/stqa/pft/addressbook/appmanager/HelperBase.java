@@ -26,7 +26,7 @@ public class HelperBase {
                 wd.findElement( locator ).sendKeys( file.getAbsolutePath() );
                 }
             }
-    private boolean isAlertPresent() {
+    public boolean isAlertPresent() {
         try {
             wd.switchTo().alert();
             return true;
@@ -39,8 +39,9 @@ public class HelperBase {
        try {
            wd.findElement( locator );
            return true;
-       } catch (org.openqa.selenium.NoSuchElementException ex)       {
-           return false;
+       } catch (org.openqa.selenium.NoSuchElementException ex){
        }
+           return false;
+
        }
 }

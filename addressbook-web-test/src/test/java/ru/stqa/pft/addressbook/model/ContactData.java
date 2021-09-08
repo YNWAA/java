@@ -17,9 +17,10 @@ public class ContactData {
     @Column(name = "firstname")
     private String firstname;
     @Expose
-    @Column(name = "middlename")
+    @Column(name = "lastname")
     private String lastname;
-    @Transient
+    @Expose
+    @Column(name = "middlename")
     private String middlename;
     @Transient
     private String group;
@@ -177,7 +178,7 @@ public class ContactData {
         return middlename;
     }
 
-    public ContactData withMiddleName(String middleName) {
+    public ContactData withMiddlename(String middleName) {
         this.middlename = middleName;
         return this;
     }
@@ -242,12 +243,12 @@ public class ContactData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(middlename, that.middlename) && Objects.equals(lastname, that.lastname) && Objects.equals(nickName, that.nickName);
+        return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname)&& Objects.equals(address, that.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, middlename, lastname, nickName);
+        return Objects.hash( firstname, lastname,address,id);
     }
     @Override
     public String toString() {
@@ -255,9 +256,7 @@ public class ContactData {
                 "id=" + id +
                 ", firstName='" + firstname + '\'' +
                 ", lastName='" + lastname + '\'' +
-                ", homePhone='" + homePhone + '\'' +
-                ", mobilePhone='" + mobilePhone + '\'' +
-                ", workPhone='" + workPhone + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 

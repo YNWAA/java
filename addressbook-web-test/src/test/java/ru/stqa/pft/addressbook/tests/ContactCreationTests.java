@@ -3,7 +3,6 @@ import java.io.File;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -44,7 +43,7 @@ public class ContactCreationTests extends TestBase {
 
 
     @Test(dataProvider = "validContactsFromJson")
-    public void testContactCreation(ContactData contact) {
+    public void testContactCreation(ContactData contact) throws Exception {
         app.goTo().contactPage();
         Contacts before = app.db().contactsRequestDB();
         app.contact().creation(contact,true);
@@ -62,7 +61,7 @@ public class ContactCreationTests extends TestBase {
         app.goTo().contactPage();
         Contacts before = app.db().contactsRequestDB();
         ContactData contact = new ContactData()
-                .withFirstname("FirstName'").withLastname("LastName").withMiddleName("MiddleName").withNickName("Donald")
+                .withFirstname("FirstName'").withLastname("LastName").withMiddlename("MiddleName").withNickName("Donald")
                 .inGroup(groups.iterator().next())
                 .withHomePhone("111").withMobilePhone("222").withWorkPhone("333").withPhoto(photo);
         app.contact().creation(contact, true);
