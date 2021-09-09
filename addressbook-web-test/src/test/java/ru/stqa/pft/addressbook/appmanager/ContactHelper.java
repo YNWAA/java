@@ -115,9 +115,9 @@ public class ContactHelper extends HelperBase {
     public void deleteGroupIsContact() {
         click(By.name("remove"));
     }
-    public void contactDeleteGroup(ContactData contact, String text) {
+    public void contactDeleteGroup(int id, String text) {
         selectTypeGroupsInContacts(text);
-        selectContactById(contact.getId());
+        selectContactById(id);
         deleteGroupIsContact();
         page();
     }
@@ -128,6 +128,14 @@ public class ContactHelper extends HelperBase {
         submitContactCreation();
         contactCache = null;
         page();
+    }
+
+    public void selectContactByIdByName(int id, String name) throws Exception {
+        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(name);
+        clickAddGroup();
+        page();
+
     }
     public void addGroupInContactById(ContactData contact){
         selectContactById(contact.getId());

@@ -39,8 +39,7 @@ public class DbHelper {
         session.close();
         return new Contacts(result);
     }
-
-    public Groups contactAllGroups() {
+    public Groups contactInGroup(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         List<ContactData> result = session.createQuery("from ContactData").list();
@@ -48,6 +47,23 @@ public class DbHelper {
         session.close();
         for (ContactData contact : result) {
             return new Groups(contact.getGroups());
+        }
+        return null;
+    }
+
+    public ContactData contactAllGroups() {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<ContactData> result = session.createQuery("from ContactData").list();
+        session.getTransaction().commit();
+        session.close();
+        for (ContactData contact : result) {
+            Groups groups = new Groups(contact.getGroups());
+            if (groups.size() == 0) {
+                continue;
+            }
+            return contact;
+
         }
         return null;
     }

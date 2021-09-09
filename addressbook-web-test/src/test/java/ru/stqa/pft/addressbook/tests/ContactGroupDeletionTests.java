@@ -14,38 +14,44 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class ContactGroupDeletionTests extends TestBase {
 
     @BeforeMethod
-    public void ensurePreconditions() {
+    public void ensurePreconditions() throws Exception {
         if (app.db().groupsRequestDB().size() == 0) {
             app.goTo().GroupPage();
-            app.group().create(new GroupData().withName("test 1"));
-            app.contact().page();
+            app.group().create( new GroupData().withName( "test1" ).withHeader( "test2" ).withFooter( "test3" ) );
+            app.goTo().GroupPage();
         }
-        if (app.db().contactAllGroups().size()==0 ){
-            Contacts before = app.db().contactsRequestDB();
-            ContactData addGroupContact = before.iterator().next();
-            app.contact().addGroupInContactById(addGroupContact);
+
+        if (app.db().contactsRequestDB().size() == 0) {
+            Groups groups = app.db().groupsRequestDB();
+            java.io.File photo = new java.io.File( "src/test/resources/stru.png" );
             app.contact().page();
+            app.contact().creation( new ContactData()
+                    .withFirstname("FirstName")
+                    .withLastname("LastName")
+                    .withAddress( "Address" )
+                    .inGroup(groups.iterator().next())
+                    .withPhoto(photo),true);
+            app.contact().page();
+            Contacts after = app.db().contactsRequestDB();
+            ContactData contactgroup = after.iterator().next();
+            GroupData groupcontact = groups.iterator().next();
+            app.contact().selectContactByIdByName(contactgroup.getId(), groupcontact.getName());
         }
     }
 
 
     @Test
     public void deleteContactInGroupTest() {
-        if (!app.contact().verifyFreeContact()){
-            app.contact().verifyGroupContact();
-        }
-
-        Contacts before = app.db().contactsRequestDB();
-        Groups beforeInGroups = app.db().contactAllGroups();
-        ContactData contact = before.iterator().next();
+        ContactData groupData = app.db().contactAllGroups();
+        int id = groupData.getId();
+        Groups groupBefore = app.db().contactInGroup(id);
+        GroupData group = groupBefore.iterator().next();
+        String groupName = group.getName();
         app.contact().page();
-        String getNameGroup = contact.getGroups().iterator().next().getName();
-        app.contact().contactDeleteGroup(contact, getNameGroup);
+        app.contact().contactDeleteGroup(id, groupName);
+        Groups contactInGroupAfter = app.db().contactInGroup(id);
+        assertThat((contactInGroupAfter), org.hamcrest.CoreMatchers.equalTo(groupBefore.withOut(group)));
 
-        assertThat(app.contact().count(), equalTo(before.size() - 1));
-        Contacts after = app.db().contactsRequestDB();
-        assertThat(after, equalTo(before));
-        Groups afterInGrous = app.db().contactAllGroups();
-        assertThat((afterInGrous), equalTo(beforeInGroups));
+
     }
 }

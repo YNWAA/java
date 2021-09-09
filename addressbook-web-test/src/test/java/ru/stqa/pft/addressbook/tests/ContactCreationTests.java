@@ -61,9 +61,9 @@ public class ContactCreationTests extends TestBase {
         app.goTo().contactPage();
         Contacts before = app.db().contactsRequestDB();
         ContactData contact = new ContactData()
-                .withFirstname("FirstName'").withLastname("LastName").withMiddlename("MiddleName").withNickName("Donald")
+                .withFirstname("FirstName'").withLastname("LastName").withMiddlename("MiddleName").withNickName("NickName")
                 .inGroup(groups.iterator().next())
-                .withHomePhone("111").withMobilePhone("222").withWorkPhone("333").withPhoto(photo);
+                .withHomePhone("HomePhone").withMobilePhone("MobilePhone").withWorkPhone("WorkPhone").withPhoto(photo);
         app.contact().creation(contact, true);
         app.goTo().contactPage();
         assertThat(app.contact().count(), equalTo(before.size()));
