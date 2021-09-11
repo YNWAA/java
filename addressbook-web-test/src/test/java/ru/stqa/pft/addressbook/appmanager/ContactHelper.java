@@ -75,6 +75,7 @@ public class ContactHelper extends HelperBase {
         click( By.linkText( "home" ) );
     }
 
+
     public void modifyi(ContactData contact) {
         selectContactModificationById( contact.getId() );
         fillform( contact, false );

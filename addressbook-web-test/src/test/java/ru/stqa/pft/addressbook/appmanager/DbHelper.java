@@ -11,6 +11,8 @@ import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.List;
 
+import static org.openqa.selenium.By.name;
+
 public class DbHelper {
     private final SessionFactory sessionFactory;
 
@@ -42,7 +44,7 @@ public class DbHelper {
     public Groups contactInGroup(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List<ContactData> result = session.createQuery("from ContactData").list();
+        List<ContactData> result = session.createQuery("from ContactData where id =" + id).list();
         session.getTransaction().commit();
         session.close();
         for (ContactData contact : result) {
@@ -50,7 +52,6 @@ public class DbHelper {
         }
         return null;
     }
-
     public ContactData contactAllGroups() {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
